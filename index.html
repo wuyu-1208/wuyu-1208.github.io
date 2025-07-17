@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>雾羽-Wu Yu | 全线工程师 & 嵌入式工程师</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf9 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: #333;
+            position: relative;
+        }
+        
+        .sakura-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+        
+        .sakura {
+            position: absolute;
+            top: -50px;
+            color: #ffb7c5;
+            font-size: 20px;
+            text-shadow: 0 0 5px rgba(255, 183, 197, 0.5);
+            animation: fall linear forwards;
+            user-select: none;
+        }
+        
+        @keyframes fall {
+            to {
+                transform: translateY(105vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        /* 导航栏样式 */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 5%;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #6a11cb, #2575fc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: #495057;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            background: linear-gradient(45deg, #6a11cb, #2575fc);
+            color: white;
+        }
+        
+        .nav-links a.active {
+            background: linear-gradient(45deg, #6a11cb, #2575fc);
+            color: white;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 6rem 2rem 2rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* 主页样式 */
+        #home-page {
+            display: block;
+        }
+        
+        #tools-page {
+            display: none;
+        }
+        
+        header {
+            text-align: center;
+            padding: 3rem 0;
+            animation: fadeIn 1.5s ease-out;
+        }
+        
+        .avatar {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            border: 5px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+            background: linear-gradient(45deg, #a18cd1, #fbc2eb);
+            margin: 0 auto 1.5rem;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 4rem;
+            font-weight: 300;
+            transition: transform 0.5s ease;
+        }
+        
+        .avatar:hover {
+            transform: scale(1.05) rotate(5deg);
+        }
+        
+        .name {
+            font-size: 3.2rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(45deg, #6a11cb, #2575fc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+        
+        .title {
+            font-size: 1.4rem;
+            color: #6c757d;
+            font-weight: 400;
+            margin-bottom: 2rem;
+        }
+        
+        .info-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.85);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        
+        .card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            background: rgba(255, 255, 255, 0.95);
+        }
+        
+        .card h2 {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid #e9ecef;
+            color: #495057;
+            font-size: 1.6rem;
+        }
+        
+        .card h2 i {
+            margin-right: 12px;
+            color: #6a11cb;
+            font-size: 1.4rem;
+        }
+        
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .contact-item:hover {
+            transform: translateX(8px);
+        }
+        
+        .contact-item i {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(45deg, #6a11cb, #2575fc);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin-right: 15px;
+            font-size: 18px;
+        }
+        
+        .contact-text {
+            font-size: 1.1rem;
+        }
+        
+        .contact-label {
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 3px;
+        }
+        
+        .contact-detail {
+            color: #6c757d;
+        }
+        
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .skill-badge {
+            background: linear-gradient(45deg, #6a11cb, #2575fc);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            box-shadow: 0 4px 15px rgba(106, 17, 203, 0.2);
+            transition: all 0.3s ease;
+            cursor: default;
+        }
+        
+        .skill-badge:hover {
+            transform: scale(1.08);
+            box-shadow: 0 6px 20px rgba(106, 17, 203, 0.3);
+        }
+        
+        .quote {
+            text-align: center;
+            margin: 3rem 0;
+            padding: 0 1rem;
+            font-style: italic;
+            color: #6c757d;
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+        }
+        
+        .quote::before, .quote::after {
+            content: """;
+            font-size: 3rem;
+            color: rgba(106, 17, 203, 0.2);
+            position: absolute;
+        }
+        
+        .quote::before {
+            top: -20px;
+            left: 10px;
+        }
+        
+        .quote::after {
+            bottom: -40px;
+            right: 10px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            color: #6c757d;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+        
+        .social-links a {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #6a11cb, #2575fc);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(106, 17, 203, 0.3);
+        }
+        
+        /* 工具页面样式 */
+        .page-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 2.5rem;
+            background: linear-gradient(45deg, #6a11cb, #2575fc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        
+        .tool-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+        
+        .tool-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: #495057;
+            display: flex;
+            align-items: center;
+        }
+        
+        .tool-card h3 i {
+            margin-right: 12px;
+            color: #6a11cb;
+        }
+        
+        .tool-input-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .tool-input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #495057;
+        }
+        
+        .tool-input-group input,
+        .tool-input-group select,
+        .tool-input-group textarea {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            border: 1px solid #ced4da;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .tool-input-group input:focus,
+        .tool-input-group select:focus,
+        .tool-input-group textarea:focus {
+            border-color: #6a11cb;
+            box-shadow: 0 0 0 3px rgba(106, 17, 203, 0.2);
+            outline: none;
+        }
+        
+        .tool-button {
+            background: linear-gradient(45deg, #6a11cb, #2575fc);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            width: 100%;
+        }
+        
+        .tool-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(106, 17, 203, 0.3);
+        }
+        
+        .result-box {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.2rem;
+            margin-top: 1.5rem;
+            border: 1px solid #e9ecef;
+            min-height: 100px;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        
+        .tool-description {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: #6c757d;
+            line-height: 1.5;
+        }
+        
+        /* 动画效果 */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            nav {
+                padding: 1rem;
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-links {
+                gap: 1rem;
+            }
+            
+            .container {
+                padding-top: 8rem;
+            }
+            
+            .name {
+                font-size: 2.5rem;
+            }
+            
+            .title {
+                font-size: 1.2rem;
+            }
+            
+            .info-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .card {
+                padding: 1.5rem;
+            }
+            
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 樱花飘落效果 -->
+    <div class="sakura-container" id="sakura-container"></div>
+    
+    <!-- 导航栏 -->
+    <nav>
+        <div class="logo">Wu Yu</div>
+        <div class="nav-links">
+            <a href="#" class="active" id="home-link">首页</a>
+            <a href="#" id="tools-link">工具</a>
+        </div>
+    </nav>
+    
+    <!-- 首页内容 -->
+    <div class="container">
+        <div id="home-page">
+            <header>
+                <div class="avatar">🤡</div>
+                <h1 class="name">雾羽-Wu Yu</h1>
+                <p class="title">全线工程师 & 嵌入式工程师</p>
+            </header>
+            
+            <div class="info-cards">
+                <div class="card">
+                    <h2><i class="fas fa-user"></i> 关于我</h2>
+                    <p>拥有丰富经验的全线工程师和嵌入式工程师，专注于构建高效、可靠的软件和硬件解决方案。致力于技术创新和解决复杂问题，对硬件与软件的完美结合充满热情。</p>
+                </div>
+                
+                <div class="card">
+                    <h2><i class="fas fa-phone"></i> 联系方式</h2>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <i class="fas fa-mobile-alt"></i>
+                            <div class="contact-text">
+                                <div class="contact-label">电话</div>
+                                <div class="contact-detail">173 3589 8120</div>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <div class="contact-text">
+                                <div class="contact-label">邮箱</div>
+                                <div class="contact-detail">jiayou000o@qq.com<br>17335898120@163.com</div>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div class="contact-text">
+                                <div class="contact-label">地址</div>
+                                <div class="contact-detail">陕西省西安市</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h2><i class="fas fa-laptop-code"></i> 专业技能</h2>
+                    <div class="skills">
+                        <div class="skill-badge">嵌入式开发</div>
+                        <div class="skill-badge">软件开发</div>
+                        <div class="skill-badge">PCB设计</div>
+                        <div class="skill-badge">物联网解决方案</div>
+                        <div class="skill-badge">3D设计</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="quote">
+                "技术是连接现实与未来的桥梁，而工程师是这座桥梁的建设者。我致力于打造既坚固又优雅的解决方案，让科技真正服务于人类。"
+            </div>
+        </div>
+        
+        <!-- 工具页面内容 -->
+        <div id="tools-page">
+            <h2 class="page-title">工具</h2>
+            
+            <div class="tools-grid">
+                <div class="tool-card">
+                    <h3><i class="fas fa-calculator"></i> 进制转换器</h3>
+                    <div class="tool-input-group">
+                        <label>输入数值：</label>
+                        <input type="text" id="number-input" placeholder="输入数值">
+                    </div>
+                    <div class="tool-input-group">
+                        <label>从进制：</label>
+                        <select id="from-base">
+                            <option value="2">二进制 (2)</option>
+                            <option value="8">八进制 (8)</option>
+                            <option value="10" selected>十进制 (10)</option>
+                            <option value="16">十六进制 (16)</option>
+                        </select>
+                    </div>
+                    <div class="tool-input-group">
+                        <label>转换到：</label>
+                        <select id="to-base">
+                            <option value="2">二进制 (2)</option>
+                            <option value="8">八进制 (8)</option>
+                            <option value="10">十进制 (10)</option>
+                            <option value="16" selected>十六进制 (16)</option>
+                        </select>
+                    </div>
+                    <button class="tool-button" onclick="convertBase()">转换</button>
+                    <div class="result-box" id="base-result">结果将显示在这里</div>
+                    <div class="tool-description">
+                        此工具可将数字在不同进制之间转换，支持二进制、八进制、十进制和十六进制。
+                    </div>
+                </div>
+                
+                <div class="tool-card">
+                    <h3><i class="fas fa-ruler"></i> 单位转换器</h3>
+                    <div class="tool-input-group">
+                        <label>输入数值：</label>
+                        <input type="number" id="unit-value" placeholder="输入数值">
+                    </div>
+                    <div class="tool-input-group">
+                        <label>从单位：</label>
+                        <select id="from-unit">
+                            <option value="mm">毫米 (mm)</option>
+                            <option value="cm">厘米 (cm)</option>
+                            <option value="m" selected>米 (m)</option>
+                            <option value="km">千米 (km)</option>
+                            <option value="in">英寸 (in)</option>
+                            <option value="ft">英尺 (ft)</option>
+                        </select>
+                    </div>
+                    <div class="tool-input-group">
+                        <label>转换到：</label>
+                        <select id="to-unit">
+                            <option value="mm">毫米 (mm)</option>
+                            <option value="cm">厘米 (cm)</option>
+                            <option value="m">米 (m)</option>
+                            <option value="km">千米 (km)</option>
+                            <option value="in" selected>英寸 (in)</option>
+                            <option value="ft">英尺 (ft)</option>
+                        </select>
+                    </div>
+                    <button class="tool-button" onclick="convertUnits()">转换</button>
+                    <div class="result-box" id="unit-result">结果将显示在这里</div>
+                    <div class="tool-description">
+                        支持多种长度单位的相互转换，包括公制和英制单位。
+                    </div>
+                </div>
+                
+                <div class="tool-card">
+                    <h3><i class="fas fa-bolt"></i> 电阻值计算器</h3>
+                    <div class="tool-input-group">
+                        <label>电阻值 (Ω)：</label>
+                        <input type="number" id="resistance" placeholder="输入电阻值">
+                    </div>
+                    <div class="tool-input-group">
+                        <label>电流 (A)：</label>
+                        <input type="number" id="current" placeholder="输入电流">
+                    </div>
+                    <button class="tool-button" onclick="calculateVoltage()">计算电压</button>
+                    <div class="result-box" id="voltage-result">电压结果将显示在这里</div>
+                    <div class="tool-description">
+                        根据欧姆定律计算电压：V = I × R
+                    </div>
+                </div>
+                
+                <div class="tool-card">
+                    <h3><i class="fas fa-code"></i> JSON格式化工具</h3>
+                    <div class="tool-input-group">
+                        <label>输入JSON：</label>
+                        <textarea id="json-input" rows="5" placeholder='{"name": "value"}'>{"example": "data", "array": [1,2,3]}</textarea>
+                    </div>
+                    <button class="tool-button" onclick="formatJson()">格式化</button>
+                    <div class="result-box" id="json-result">格式化后的JSON将显示在这里</div>
+                    <div class="tool-description">
+                        将压缩的JSON数据转换为易读的格式化JSON。
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>© 2025 雾羽-崔峻熙 个人网站 | 追求卓越的技术解决方案</p>
+        <div class="social-links">
+            <a href="#"><i class="fab fa-github"></i></a>
+            <a href="#"><i class="fab fa-weixin"></i></a>
+        </div>
+    </footer>
+    
+    <script>
+        // 樱花飘落效果
+        document.addEventListener('DOMContentLoaded', function() {
+            const container = document.getElementById('sakura-container');
+            const sakuraCount = 30;
+            
+            for (let i = 0; i < sakuraCount; i++) {
+                createSakura();
+            }
+            
+            function createSakura() {
+                const sakura = document.createElement('div');
+                sakura.classList.add('sakura');
+                sakura.innerHTML = '❀';
+                
+                // 随机位置
+                const startPosX = Math.random() * window.innerWidth;
+                sakura.style.left = `${startPosX}px`;
+                
+                // 随机大小
+                const size = Math.random() * 20 + 10;
+                sakura.style.fontSize = `${size}px`;
+                
+                // 随机动画时长
+                const animationDuration = Math.random() * 10 + 8;
+                sakura.style.animationDuration = `${animationDuration}s`;
+                
+                // 随机延迟
+                const animationDelay = Math.random() * 5;
+                sakura.style.animationDelay = `${animationDelay}s`;
+                
+                // 随机旋转方向
+                const rotation = Math.random() > 0.5 ? 360 : -360;
+                sakura.style.setProperty('--rotation', `${rotation}deg`);
+                
+                container.appendChild(sakura);
+                
+                // 樱花消失后重新创建
+                sakura.addEventListener('animationend', function() {
+                    container.removeChild(sakura);
+                    createSakura();
+                });
+            }
+        });
+
+        // 页面切换功能
+        const homeLink = document.getElementById('home-link');
+        const toolsLink = document.getElementById('tools-link');
+        const homePage = document.getElementById('home-page');
+        const toolsPage = document.getElementById('tools-page');
+        
+        homeLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            homePage.style.display = 'block';
+            toolsPage.style.display = 'none';
+            homeLink.classList.add('active');
+            toolsLink.classList.remove('active');
+        });
+        
+        toolsLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            homePage.style.display = 'none';
+            toolsPage.style.display = 'block';
+            toolsLink.classList.add('active');
+            homeLink.classList.remove('active');
+        });
+        
+        // 工具功能实现
+        // 进制转换器
+        function convertBase() {
+            const input = document.getElementById('number-input').value;
+            const fromBase = parseInt(document.getElementById('from-base').value);
+            const toBase = parseInt(document.getElementById('to-base').value);
+            const resultBox = document.getElementById('base-result');
+            
+            if (!input) {
+                resultBox.textContent = "请输入要转换的数字";
+                return;
+            }
+            
+            try {
+                // 先将输入转换为十进制
+                let decimal;
+                if (fromBase === 10) {
+                    decimal = parseInt(input);
+                } else if (fromBase === 16) {
+                    decimal = parseInt(input, 16);
+                } else if (fromBase === 8) {
+                    decimal = parseInt(input, 8);
+                } else if (fromBase === 2) {
+                    decimal = parseInt(input, 2);
+                }
+                
+                // 将十进制转换为目标进制
+                let result;
+                if (toBase === 10) {
+                    result = decimal.toString();
+                } else if (toBase === 16) {
+                    result = decimal.toString(16).toUpperCase();
+                } else if (toBase === 8) {
+                    result = decimal.toString(8);
+                } else if (toBase === 2) {
+                    result = decimal.toString(2);
+                }
+                
+                resultBox.textContent = `转换结果: ${result}`;
+            } catch (e) {
+                resultBox.textContent = "转换错误: 请输入有效的数字";
+            }
+        }
+        
+        // 单位转换器
+        function convertUnits() {
+            const value = parseFloat(document.getElementById('unit-value').value);
+            const fromUnit = document.getElementById('from-unit').value;
+            const toUnit = document.getElementById('to-unit').value;
+            const resultBox = document.getElementById('unit-result');
+            
+            if (isNaN(value)) {
+                resultBox.textContent = "请输入有效的数值";
+                return;
+            }
+            
+            // 转换为米作为中间单位
+            let inMeters;
+            switch (fromUnit) {
+                case 'mm': inMeters = value / 1000; break;
+                case 'cm': inMeters = value / 100; break;
+                case 'm': inMeters = value; break;
+                case 'km': inMeters = value * 1000; break;
+                case 'in': inMeters = value * 0.0254; break;
+                case 'ft': inMeters = value * 0.3048; break;
+                default: inMeters = value;
+            }
+            
+            // 从米转换为目标单位
+            let result;
+            switch (toUnit) {
+                case 'mm': result = inMeters * 1000; break;
+                case 'cm': result = inMeters * 100; break;
+                case 'm': result = inMeters; break;
+                case 'km': result = inMeters / 1000; break;
+                case 'in': result = inMeters / 0.0254; break;
+                case 'ft': result = inMeters / 0.3048; break;
+                default: result = inMeters;
+            }
+            
+            resultBox.textContent = `转换结果: ${result.toFixed(6)} ${toUnit}`;
+        }
+        
+        // 电阻值计算器
+        function calculateVoltage() {
+            const resistance = parseFloat(document.getElementById('resistance').value);
+            const current = parseFloat(document.getElementById('current').value);
+            const resultBox = document.getElementById('voltage-result');
+            
+            if (isNaN(resistance)) {
+                resultBox.textContent = "请输入有效的电阻值";
+                return;
+            }
+            
+            if (isNaN(current)) {
+                resultBox.textContent = "请输入有效的电流值";
+                return;
+            }
+            
+            const voltage = resistance * current;
+            resultBox.textContent = `计算结果: ${voltage.toFixed(4)} V (伏特)`;
+        }
+        
+        // JSON格式化工具
+        function formatJson() {
+            const input = document.getElementById('json-input').value;
+            const resultBox = document.getElementById('json-result');
+            
+            if (!input) {
+                resultBox.textContent = "请输入JSON数据";
+                return;
+            }
+            
+            try {
+                const obj = JSON.parse(input);
+                const formatted = JSON.stringify(obj, null, 4);
+                resultBox.textContent = formatted;
+            } catch (e) {
+                resultBox.textContent = "JSON格式错误: " + e.message;
+            }
+        }
+    </script>
+</body>
+</html>
